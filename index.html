@@ -456,7 +456,7 @@ body{
 .card-field.show{ animation:fieldRise 900ms cubic-bezier(.16,.55,.2,1) forwards; }
 @keyframes fieldRise{ 0%{opacity:0; transform:translateY(150px);} 100%{opacity:1; transform:translateY(0);} }
 .field-card{
-  width:min(108px, 16vw); height:min(152px, 25vw); aspect-ratio:3 / 4.3; border-radius:11px; position:relative; cursor:pointer;
+  width:min(108px, 16vw); height:auto; aspect-ratio:var(--card-aspect, 3 / 4.3); border-radius:11px; position:relative; cursor:pointer;
   background:linear-gradient(160deg,#123342,#0c2530); border:1px solid var(--pink);
   box-shadow:0 0 18px rgba(255,95,184,0.34), var(--shadow);
   display:flex; align-items:center; justify-content:center; flex-direction:column; gap:4px;

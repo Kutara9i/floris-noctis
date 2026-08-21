@@ -969,8 +969,9 @@ function getCardImage(item, stg="base"){
 }
 
 function photoBlockHtml(item, captionHtml, stg="base"){
+  const caption = captionHtml ? `<div class="photo-caption">${captionHtml}</div>` : "";
   return `<img class="illust-photo" src="${getCardImage(item, stg)}" alt="${item.name}" data-glyph="${item.glyph}" data-hue="${item.hue}">
-    <div class="photo-caption">${captionHtml}</div>`;
+    ${caption}`;
 }
 
 // 画像の読み込みに失敗したカードは、絵文字表示に自動でフォールバックする

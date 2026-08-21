@@ -555,9 +555,9 @@ footer{
 
 .footer-row{
   display:grid;
-  grid-template-columns:120px 1fr;
+  grid-template-columns:120px minmax(180px, 1fr) 80px minmax(350px, 2fr);
   gap:8px 18px;
-  max-width:900px;
+  max-width:1000px;
   margin:0 auto;
 }
 
@@ -571,6 +571,19 @@ footer{
   word-break:keep-all;
 }
 
+/* キャストだけ右側に配置 */
+.footer-row .footer-label:last-of-type{
+  grid-column:3;
+  grid-row:1;
+}
+
+.footer-row .footer-names:last-of-type{
+  grid-column:4;
+  grid-row:1 / span 4;
+}
+
+
+/* スマホ */
 @media (max-width:600px){
   footer{
     margin-top:45px;
@@ -579,8 +592,20 @@ footer{
   }
 
   .footer-row{
+    display:grid;
     grid-template-columns:95px 1fr;
     gap:6px 10px;
+  }
+
+  /* キャストを通常の次の行に戻す */
+  .footer-row .footer-label:last-of-type{
+    grid-column:1;
+    grid-row:auto;
+  }
+
+  .footer-row .footer-names:last-of-type{
+    grid-column:2;
+    grid-row:auto;
   }
 }
 

@@ -1237,7 +1237,7 @@ fieldCards.forEach((c, i)=>{
   c.addEventListener("click", (e)=>{
     e.stopPropagation();
     if(fieldChoiceResolve){
-      playSE("tap");
+      playSE("nav");
       const r = fieldChoiceResolve;
       fieldChoiceResolve = null;
       r(i);
@@ -1713,7 +1713,7 @@ overlay.addEventListener("click", (e)=>{
 
   // 「- TAP -」やタップして次へ、などのプロンプトが出ている時だけ反応する
   if(awaitingTap){
-    playSE("tap");
+    playSE("nav");
     const resolve = tapResolve;
     tapResolve = null;
     awaitingTap = false;

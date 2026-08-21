@@ -1237,7 +1237,7 @@ fieldCards.forEach((c, i)=>{
   c.addEventListener("click", (e)=>{
     e.stopPropagation();
     if(fieldChoiceResolve){
-      playSE("nav");
+      playSE("tap");
       const r = fieldChoiceResolve;
       fieldChoiceResolve = null;
       r(i);
@@ -1282,14 +1282,10 @@ function setBadge(result){
 }
 
 function applyFrontContent(item, stg, evolved){
-  const rarityText = stageLabel[stg] + "版";
   if(item){
-    cardFront.innerHTML = photoBlockHtml(item,
-      `<div class="name">${item.name}</div><div class="rarity">${rarityText}</div>`, stg);
+    cardFront.innerHTML = photoBlockHtml(item, "", stg);
   }else{
-    cardFront.innerHTML = `${glyphBlockHtml(item)}
-      <div class="name">${item.name}</div>
-      <div class="rarity">${rarityText}</div>`;
+    cardFront.innerHTML = glyphBlockHtml(item);
   }
   cardFront.classList.toggle("evolved", !!evolved);
 }

@@ -542,42 +542,12 @@ body{
 .summary-label{ font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:15px; color:var(--cyan-soft); opacity:0; }
 .summary-label.show{ animation:fadeUp .4s ease forwards; }
 
-footer{
-  margin-top:60px;
-  padding:28px 20px 10px;
-  border-top:1px solid var(--line);
-  color:var(--muted);
-  font-size:11px;
-  line-height:1.9;
-  text-align:left;
-  opacity:0.85;
-}
-
-.footer-row{
-  display:grid;
-  grid-template-columns:120px minmax(180px, 1fr) 80px minmax(350px, 2fr);
-  gap:8px 18px;
-  max-width:1000px;
-  margin:0 auto;
-}
-
-.footer-label{
-  color:var(--cyan-soft);
-  font-weight:700;
-  white-space:nowrap;
-}
-
-.footer-names{
-  word-break:keep-all;
-}
-
-/* キャストだけ右側に配置 */
-.footer-row .footer-label:last-of-type{
+.footer-cast-label{
   grid-column:3;
   grid-row:1;
 }
 
-.footer-row .footer-names:last-of-type{
+.footer-cast-names{
   grid-column:4;
   grid-row:1 / span 4;
 }
@@ -585,25 +555,12 @@ footer{
 
 /* スマホ */
 @media (max-width:600px){
-  footer{
-    margin-top:45px;
-    padding:24px 10px 8px;
-    font-size:10px;
-  }
-
-  .footer-row{
-    display:grid;
-    grid-template-columns:95px 1fr;
-    gap:6px 10px;
-  }
-
-  /* キャストを通常の次の行に戻す */
-  .footer-row .footer-label:last-of-type{
+  .footer-cast-label{
     grid-column:1;
     grid-row:auto;
   }
 
-  .footer-row .footer-names:last-of-type{
+  .footer-cast-names{
     grid-column:2;
     grid-row:auto;
   }
@@ -765,7 +722,11 @@ footer{
     <div class="footer-names">Kutara9i</div>
 
     <div class="footer-label">キャスト：</div>
-    <div class="footer-names">うた / おちゃみん / Kagari / kiki tototo<br>こた / 琥珀 / 不知火 / タケユー<br>ちゃちゃまる / Tottemo shin / とろっぷ / Fackter<br>ぼると / yuiyui</div>
+    <div class="footer-names">うた / おちゃみん / Kagari / kiki tototo<br>
+      こた / 琥珀 / 不知火 / タケユー<br>
+      ちゃちゃまる / Tottemo shin / とろっぷ / Fackter<br>
+      ぼると / yuiyui
+    </div>
   </div>
 </footer>
 </div>

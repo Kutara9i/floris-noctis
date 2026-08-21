@@ -534,6 +534,73 @@ body{
 .summary-label.show{ animation:fadeUp .4s ease forwards; }
 
 footer{ text-align:center; color:var(--muted); font-size:11px; margin-top:50px; opacity:0.55; }
+
+/* ---------- smartphone header / nav layout ---------- */
+@media (max-width: 600px){
+  /* スマホではトップバーの内容が縦に並ぶため、高さを確保してナビと重ならないようにする */
+  body{
+    padding-top: 136px;
+  }
+
+  .topbar{
+    padding: 9px 12px;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .logo-wrap{
+    gap: 8px;
+  }
+
+  .logo-wrap img{
+    height: 32px;
+  }
+
+  .logo-text .main{
+    font-size: 19px;
+  }
+
+  .logo-text .sub{
+    font-size: 7.5px;
+  }
+
+  .status-panel{
+    width: 100%;
+    justify-content: center;
+    gap: 7px;
+  }
+
+  .pill{
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+
+  .pill b{
+    font-size: 13px;
+  }
+
+  .btn-share{
+    padding: 6px 11px;
+    font-size: 11px;
+  }
+
+  .navbar{
+    top: 91px;
+    padding: 6px 8px;
+    gap: 3px;
+  }
+
+  .nav-btn{
+    flex: 1;
+    padding: 7px 8px;
+    font-size: 12px;
+  }
+
+  .wrap{
+    padding-top: 28px;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1113,8 +1180,7 @@ const CHARGE_SE_MS = 2403; // charge-spell.mp3 の長さ
 const BURST_SE_MS = 1802;  // burst-sparkle.mp3 の長さ
 const chargeSpellSE = document.getElementById("chargeSpellSE");
 const burstSparkleSE = document.getElementById("burstSparkleSE");
-burstSparkleSE.volume = 0.2;
-chargeSpellSE.volume = 0.5;
+burstSparkleSE.volume = 0.2; // burst-sparkle.mp3 の音量を大きく下げる
 function playChargeSE(){
   chargeSpellSE.currentTime = 0;
   chargeSpellSE.play().catch(()=>{});

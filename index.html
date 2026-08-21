@@ -4,6 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Floris Noctis | Night Pool Event</title>
+<meta property="og:title" content="Floris Noctis | Night Pool Event">
+<meta property="og:description" content="今日一番可愛い子、見つけた。">
+<meta property="og:image" content="https://kutara9i.github.io/floris-noctis/images/x-share.png">
+<meta property="og:url" content="https://kutara9i.github.io/floris-noctis/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Floris Noctis | Night Pool Event">
+<meta name="twitter:description" content="今日一番可愛い子、見つけた。">
+<meta name="twitter:image" content="https://kutara9i.github.io/floris-noctis/images/x-share.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+JP:wght@400;500;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,600;1,700&display=swap');
 
@@ -380,7 +389,7 @@ body{
 .charge-glow{
   position:absolute; left:50%; top:50%; width:36px; height:36px; border-radius:50%;
   transform:translate(-50%,-50%) scale(.25); opacity:0; z-index:3; pointer-events:none;
-  background:radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,95,184,0.65) 45%, transparent 75%);
+  background:radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.65) 45%, transparent 75%);
   filter:blur(1px);
 }
 .charge-glow.show{ animation:chargeBuild .68s cubic-bezier(.3,0,.6,1) forwards; }
@@ -390,7 +399,7 @@ body{
   93%{ opacity:.9; transform:translate(-50%,-50%) scale(1.5); }
   100%{ opacity:1; transform:translate(-50%,-50%) scale(2); }
 }
-.flash{ position:absolute; width:22px; height:22px; border-radius:50%; background:radial-gradient(circle, #fff, rgba(255,221,244,0.85) 35%, transparent 72%); opacity:0; transform:translate(-50%,-50%) scale(0); z-index:6; }
+.flash{ position:absolute; width:22px; height:22px; border-radius:50%; background:radial-gradient(circle, #fff, rgba(255,255,255,0.85) 35%, transparent 72%); opacity:0; transform:translate(-50%,-50%) scale(0); z-index:6; }
 .flash.go{ animation:flashPop .6s ease-out forwards; }
 @keyframes flashPop{
   0%{ opacity:0; transform:translate(-50%,-50%) scale(0); }
@@ -1115,8 +1124,9 @@ fsOverlay.addEventListener("click", (e)=>{ if(e.target===fsOverlay) fsOverlay.cl
 /* ---------------- share bonus ---------------- */
 document.getElementById("shareBtn").addEventListener("click", ()=>{
   if(state.shareUsedToday) return;
-  const text = encodeURIComponent("「Floris Noctis」で今夜の一枚を引いた🌴🌙");
-  window.open(`https://twitter.com/intent/tweet?text=${text}`, "_blank", "noopener,noreferrer");
+  const text = encodeURIComponent("🌴 今夜、運命の一枚を見つけた 🌴\n\n#FlorisNoctis");
+  const url = encodeURIComponent("https://kutara9i.github.io/floris-noctis/");
+  window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank", "noopener,noreferrer");
   state.shareUsedToday = true;
   state.pullsLeft += SHARE_BONUS;
   saveState(); render();

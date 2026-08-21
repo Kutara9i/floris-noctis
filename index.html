@@ -372,7 +372,7 @@ body{
   50%{ transform:translateX(-6%) translateY(-4px) scaleY(1.2); }
 }
 
-.burst{ position:absolute; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,95,184,0.6) 40%, transparent 70%); opacity:0; transform:scale(0); z-index:3; }
+.burst{ position:absolute; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,1), rgba(255,255,255,0.95) 40%, transparent 70%); opacity:0; transform:scale(0); z-index:3; }
 .burst.go{ animation:burstAnim 1.6s ease-out forwards; }
 @keyframes burstAnim{ 0%{opacity:0; transform:scale(0);} 20%{opacity:1;} 100%{opacity:0; transform:scale(40);} }
 
@@ -622,8 +622,8 @@ footer{ text-align:center; color:var(--muted); font-size:11px; margin-top:50px; 
     </div>
   </div>
   <div class="status-panel">
-    <div class="pill">本日残り <b id="pullsLeft">5</b> 回</div>
-    <button class="btn-share" id="shareBtn">𝕏 でシェアして+5回</button>
+    <div class="pill">本日残り <b id="pullsLeft">10</b> 回</div>
+    <button class="btn-share" id="shareBtn">𝕏 でシェアして+10回</button>
   </div>
 </div>
 
@@ -663,7 +663,7 @@ footer{ text-align:center; color:var(--muted); font-size:11px; margin-top:50px; 
         <button class="btn-pull" id="pullBtn1">カードを1枚引く</button>
         <button class="btn-pull multi" id="pullBtn5">カードを5枚引く</button>
       </div>
-      <p class="pull-sub" id="pullSub">1日5回無料・𝕏シェアで+5回</p>
+      <p class="pull-sub" id="pullSub">1日10回無料・𝕏シェアで+10回</p>
     </div>
   </section>
 
@@ -787,8 +787,8 @@ const POSTERS = [
 ];
 
 const STORAGE_KEY = "floris-noctis-state-v1";
-const FREE_DAILY = 5;
-const SHARE_BONUS = 5;
+const FREE_DAILY = 10;
+const SHARE_BONUS = 10;
 const UNLIMITED_MODE = true; // ← 演出確認用。本番では false に戻してください
 
 let state = { owned:{}, pullsLeft:FREE_DAILY, lastDate:null, shareUsedToday:false };
@@ -1031,10 +1031,10 @@ function render(){
   document.getElementById("pullSub").textContent = UNLIMITED_MODE
     ? "演出確認モード:回数無制限です"
     : (state.pullsLeft > 0
-      ? "1日5回無料・𝕏シェアで+5回" : "本日の回数を使い切りました。明日また挑戦してください");
+      ? "1日10回無料・𝕏シェアで+10回" : "本日の回数を使い切りました。明日また挑戦してください");
   document.getElementById("shareBtn").disabled = !UNLIMITED_MODE && state.shareUsedToday;
   document.getElementById("shareBtn").textContent = (!UNLIMITED_MODE && state.shareUsedToday)
-    ? "本日のシェアボーナスは使用済み" : "𝕏 でシェアして+5回";
+    ? "本日のシェアボーナスは使用済み" : "𝕏 でシェアして+10回";
 
   const grid = document.getElementById("grid");
   grid.innerHTML = "";

@@ -542,7 +542,47 @@ body{
 .summary-label{ font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:15px; color:var(--cyan-soft); opacity:0; }
 .summary-label.show{ animation:fadeUp .4s ease forwards; }
 
-footer{ text-align:center; color:var(--muted); font-size:11px; margin-top:50px; opacity:0.55; }
+footer{
+  margin-top:60px;
+  padding:28px 20px 10px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.9;
+  text-align:left;
+  opacity:0.85;
+}
+
+.footer-row{
+  display:grid;
+  grid-template-columns:120px 1fr;
+  gap:8px 18px;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.footer-label{
+  color:var(--cyan-soft);
+  font-weight:700;
+  white-space:nowrap;
+}
+
+.footer-names{
+  word-break:keep-all;
+}
+
+@media (max-width:600px){
+  footer{
+    margin-top:45px;
+    padding:24px 10px 8px;
+    font-size:10px;
+  }
+
+  .footer-row{
+    grid-template-columns:95px 1fr;
+    gap:6px 10px;
+  }
+}
 
 /* ---------- smartphone header / nav layout ---------- */
 @media (max-width: 600px){
@@ -685,7 +725,24 @@ footer{ text-align:center; color:var(--muted); font-size:11px; margin-top:50px; 
     <div class="grid" id="grid"></div>
   </section>
 
-  <footer>5枚・10枚獲得で進化スチルが解放されます<br>集めたカードはコレクションから確認できます</footer>
+<footer>
+  <div class="footer-row">
+    <div class="footer-label">オーナー：</div>
+    <div class="footer-names">あにぬす</div>
+
+    <div class="footer-label">企画/デザイン：</div>
+    <div class="footer-names">くみすけ</div>
+
+    <div class="footer-label">DJ：</div>
+    <div class="footer-names">MaM1lo</div>
+
+    <div class="footer-label">システム制作：</div>
+    <div class="footer-names">Kutara9i</div>
+
+    <div class="footer-label">キャスト：</div>
+    <div class="footer-names">うた / おちゃみん / Kagari / kiki tototo<br>こた / 琥珀 / 不知火 / タケユー<br>ちゃちゃまる / Tottemo shin / とろっぷ / Fackter<br>ぼると / yuiyui</div>
+  </div>
+</footer>
 </div>
 
 <!-- データ引き継ぎ(バックアップコードの発行・復元) -->

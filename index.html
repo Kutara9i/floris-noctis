@@ -1165,7 +1165,7 @@ function playSE(kind){
     case "nav":   playTone(520, 0.09, "sine", 0.12); break;
     case "pull":  playTone(660, 0.11, "triangle", 0.15); playTone(880, 0.11, "triangle", 0.11, 0.06); break;
     case "pull5": playTone(660, 0.10, "triangle", 0.15); playTone(880, 0.10, "triangle", 0.13, 0.05); playTone(1100, 0.13, "triangle", 0.11, 0.11); break;
-    case "tap":   playTone(760, 0.06, "sine", 0.10); break;
+    case "tap":   playTone(760, 0.06, "sine", 0.12); break;
     case "close": playTone(340, 0.09, "sine", 0.12); break;
   }
 }
@@ -1709,7 +1709,7 @@ overlay.addEventListener("click", (e)=>{
 
   // 「- TAP -」やタップして次へ、などのプロンプトが出ている時だけ反応する
   if(awaitingTap){
-    playSE("nav");
+    playSE("tap");
     const resolve = tapResolve;
     tapResolve = null;
     awaitingTap = false;

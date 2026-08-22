@@ -400,7 +400,7 @@ body{
   100%{ opacity:1; transform:translate(-50%,-50%) scale(2); }
 }
 .flash{ position:absolute; width:22px; height:22px; border-radius:50%; background:radial-gradient(circle, #fff, #fff, transparent 72%); opacity:0; transform:translate(-50%,-50%) scale(0); z-index:6; }
-.flash.go{ animation:flashPop 1.0s ease-out forwards; }
+.flash.go{ animation:flashPop 0.9s ease-out forwards; }
 @keyframes flashPop{
   0%{ opacity:0; transform:translate(-50%,-50%) scale(0); }
   20%{ opacity:1; transform:translate(-50%,-50%) scale(16); }
@@ -1269,9 +1269,10 @@ const CHARGE_SE_MS = 2403; // charge-spell.mp3 の長さ
 const BURST_SE_MS = 1802;  // burst-sparkle.mp3 の長さ
 const chargeSpellSE = document.getElementById("chargeSpellSE");
 const burstSparkleSE = document.getElementById("burstSparkleSE");
-burstSparkleSE.volume = 0.7; // burst-sparkle.mp3 の音量
+burstSparkleSE.volume = 0.67; // burst-sparkle.mp3 の音量
 function playChargeSE(){
   chargeSpellSE.currentTime = 0;
+  chargeSpellSE.playbackRate = 1.5;
   chargeSpellSE.play().catch(()=>{});
 }
 function playBurstSE(){
@@ -1346,7 +1347,7 @@ function spawnBurstsThenFlash(onFlash){
     setTimeout(()=>{
       playBurstSE();
       if(onFlash) onFlash();
-    }, 150);
+    }, 270);
   }, 600);
 }
 

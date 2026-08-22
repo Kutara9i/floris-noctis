@@ -382,7 +382,7 @@ body{
 }
 
 .burst{ position:absolute; width:10px; height:10px; border-radius:50%; background:radial-gradient(circle, rgba(255,255,255,0.45), rgba(255,95,184,0.2) 50%, transparent 70%); opacity:0; transform:scale(0); z-index:3; }
-.burst.go{ animation:burstAnim 1.6s ease-out forwards; }
+.burst.go{ animation:burstAnim 1.0s ease-out forwards; }
 @keyframes burstAnim{ 0%{opacity:0; transform:scale(0);} 20%{opacity:1;} 100%{opacity:0; transform:scale(40);} }
 
 /* ため → 大きく画面全体を覆うほど光がはじける演出(SEの尺に合わせて8.1秒かけて溜める) */
@@ -399,8 +399,8 @@ body{
   93%{ opacity:.9; transform:translate(-50%,-50%) scale(1.5); }
   100%{ opacity:1; transform:translate(-50%,-50%) scale(2); }
 }
-.flash{ position:absolute; width:22px; height:22px; border-radius:50%; background:radial-gradient(circle, #fff, rgba(255,95,184,0.65) 35%, transparent 72%); opacity:0; transform:translate(-50%,-50%) scale(0); z-index:6; }
-.flash.go{ animation:flashPop .6s ease-out forwards; }
+.flash{ position:absolute; width:22px; height:22px; border-radius:50%; background:radial-gradient(circle, #fff, #fff, transparent 72%); opacity:0; transform:translate(-50%,-50%) scale(0); z-index:6; }
+.flash.go{ animation:flashPop 1.0s ease-out forwards; }
 @keyframes flashPop{
   0%{ opacity:0; transform:translate(-50%,-50%) scale(0); }
   20%{ opacity:1; transform:translate(-50%,-50%) scale(16); }
@@ -758,8 +758,8 @@ footer{
   <a href="https://x.com/chacha25250323" target="_blank" rel="noopener noreferrer">ちゃちゃまる</a> / 
   <a href="https://x.com/shin_Tottemo" target="_blank" rel="noopener noreferrer">Tottemo shin</a> / 
   <a href="https://x.com/TToropp" target="_blank" rel="noopener noreferrer">とろっぷ</a><br>
-  <a href="https://x.com/fakctor" target="_blank" rel="noopener noreferrer">Fakcter</a> / 
-  <a href="https://x.com/onoryuuuu" target="_blank" rel="noopener noreferrer">ぼると</a> / 
+  <a href="https://x.com/fakctor0214" target="_blank" rel="noopener noreferrer">Fakctor</a> / 
+  <a href="https://x.com/onoryuuuu" target="_blank" rel="noopener noreferrer">ボルト</a> / 
   <a href="https://x.com/yuiyui_1476" target="_blank" rel="noopener noreferrer">yuiyui</a>
 </div>    </div>
   </div>
@@ -854,7 +854,7 @@ const ILLUSTRATIONS = [
   {id:2,  name:"あにぬす", glyph:"🌙", hue:200},
   {id:3,  name:"うた",   glyph:"🌴", hue:160},
   {id:4,  name:"おちゃみん", glyph:"🪩", hue:290},
-  {id:5,  name:"Kagari", glyph:"🌊", hue:190},
+  {id:5,  name:"篝 Kagari", glyph:"🌊", hue:190},
   {id:6,  name:"kiki tototo",   glyph:"🎆", hue:210},
   {id:7,  name:"こた", glyph:"🕶️", hue:170},
   {id:8,  name:"琥珀", glyph:"💦", hue:185},
@@ -863,8 +863,8 @@ const ILLUSTRATIONS = [
   {id:11, name:"ちゃちゃまる", glyph:"🐬", hue:205},
   {id:12, name:"Tottemo shin", glyph:"🍸", hue:250},
   {id:13, name:"とろっぷ", glyph:"🎵", hue:270},
-  {id:14, name:"Fackter", glyph:"🏮", hue:20},
-  {id:15, name:"ぼると", glyph:"🥂", hue:45},
+  {id:14, name:"Fakctor", glyph:"🏮", hue:20},
+  {id:15, name:"ボルト", glyph:"🥂", hue:45},
   {id:16, name:"MaM1lo", glyph:"🐠", hue:20},
   {id:17, name:"yuiyui", glyph:"🌺", hue:340},
 ];
@@ -1269,7 +1269,7 @@ const CHARGE_SE_MS = 2403; // charge-spell.mp3 の長さ
 const BURST_SE_MS = 1802;  // burst-sparkle.mp3 の長さ
 const chargeSpellSE = document.getElementById("chargeSpellSE");
 const burstSparkleSE = document.getElementById("burstSparkleSE");
-burstSparkleSE.volume = 0.2; // burst-sparkle.mp3 の音量を大きく下げる
+burstSparkleSE.volume = 0.7; // burst-sparkle.mp3 の音量
 function playChargeSE(){
   chargeSpellSE.currentTime = 0;
   chargeSpellSE.play().catch(()=>{});
@@ -1332,15 +1332,22 @@ function spawnBursts(){
     const b=document.createElement("div"); b.className="burst"; b.style.left="50%"; b.style.top="46%";
     revealStage.appendChild(b);
     setTimeout(()=>b.classList.add("go"), i*20);
-    setTimeout(()=>b.remove(), 1200);
+    setTimeout(()=>b.remove(), 800);
   }
 }
-function spawnFlashAndBursts(){
-  const flash=document.createElement("div"); flash.className="flash"; flash.style.left="50%"; flash.style.top="46%";
-  revealStage.appendChild(flash);
-  requestAnimationFrame(()=>flash.classList.add("go"));
-  setTimeout(()=>flash.remove(), 600);
+function spawnBurstsThenFlash(onFlash){
   spawnBursts();
+  playChargeSE();
+  setTimeout(()=>{
+    const flash=document.createElement("div"); flash.className="flash"; flash.style.left="50%"; flash.style.top="46%";
+    revealStage.appendChild(flash);
+    requestAnimationFrame(()=>flash.classList.add("go"));
+    setTimeout(()=>flash.remove(), 1000);
+    setTimeout(()=>{
+      playBurstSE();
+      if(onFlash) onFlash();
+    }, 150);
+  }, 600);
 }
 
 function drawOne(){
@@ -1474,24 +1481,22 @@ async function collapseFieldToChosen(chosenIdx, isNew){
   await wait(500);
 }
 
-/* ため(charge-spell.mp3)→ 光がはじけて(burst-sparkle.mp3)表面(または進化後スチル)が見える
+/* burst→600ms→flashで表面(または進化後スチル)が見える(ためは無し)
    ※ タップ待ちの後に呼ぶ共通処理。1枚目・2〜5枚目のNewカードで同じ演出・SEになるよう共通化 */
 async function chargeAndBurstReveal(item, stg, evolved){
-  chargeGlow.classList.add("show");
-  playChargeSE();
-  await wait(680);
-  chargeGlow.classList.remove("show");
-  spawnFlashAndBursts();
-  playBurstSE();
-  await wait(600);
-  cardBack.style.display = "none";
-  cardBack.classList.remove("new-tease");
-  applyFrontContent(item, stg, evolved);
-  cardFront.classList.remove("hidden-face");
+  await new Promise(resolve=>{
+    spawnBurstsThenFlash(()=>{
+      cardBack.style.display = "none";
+      cardBack.classList.remove("new-tease");
+      applyFrontContent(item, stg, evolved);
+      cardFront.classList.remove("hidden-face");
+      resolve();
+    });
+  });
   await wait(120);
 }
 
-/* タップ → ため(charge-spell.mp3) → 光がはじけて(burst-sparkle.mp3)表面(または進化後スチル)が見える */
+/* タップ → 光がはじけて(burst-sparkle.mp3)0.6秒後に閃光が光り、表面(または進化後スチル)が見える(ためは無し) */
 async function chargeAndReveal(item, stg, evolved){
   // New(初取得)カードは、水面から出てきた時点からずっと金色のまま(collapseFieldToChosenで設定済み)
   tapHint.textContent = "- TAP -";
@@ -1513,32 +1518,29 @@ async function showGetAndBadge(result){
 }
 
 /* 2枚目以降・進化トリガー時の初回表示:
-   Newカードと同じ「ため→はじける」の演出・SE。
+   Newカードと同じ「burst→600ms→flash」の演出・SE(ため無し)。
    ただしNewカードと違いタップ待ちは入れない。 */
 async function revealAutoNoCharge(item, stg, evolved){
-  // NewカードのchargeAndBurstRevealと同じタイミングで、タップだけ省略
-  chargeGlow.classList.add("show");
-  playChargeSE();
-  await wait(680);
-  chargeGlow.classList.remove("show");
-  spawnFlashAndBursts();
-  playBurstSE();
-  await wait(600);
-  cardBack.style.display = "none";
-  cardBack.classList.remove("new-tease");
-  applyFrontContent(item, stg, evolved);
-  cardFront.classList.remove("hidden-face");
+  await new Promise(resolve=>{
+    spawnBurstsThenFlash(()=>{
+      cardBack.style.display = "none";
+      cardBack.classList.remove("new-tease");
+      applyFrontContent(item, stg, evolved);
+      cardFront.classList.remove("hidden-face");
+      resolve();
+    });
+  });
   await wait(120);
 }
 
 /* カードの種類(New/2枚目以降/進化)に応じて演出を出し分ける */
 async function revealCardByType(result){
   if(result.isNew){
-    // New: タップ→ため(charge-spell.mp3)→はじける(burst-sparkle.mp3)→GET!
+    // New: タップ→はじける(burst-sparkle.mp3)→GET!
     await chargeAndReveal(result.item, "base", false);
     await showGetAndBadge(result);
   }else{
-    // 2枚目以降 or 進化トリガー: タップ・ため無しで即はじける
+    // 2枚目以降 or 進化トリガー: タップ無しで即はじける
     await revealAutoNoCharge(result.item, "base", false);
     if(result.evolvedTo){
       await playEvolution(result);
@@ -1548,7 +1550,7 @@ async function revealCardByType(result){
 }
 
 /* 5連の2～5枚目(簡略版):1枚だけ水面から出してそのまま中央へ。
-   New(初取得)は水面から出てくる時点から金色のままタップを待ってから、1枚目と同じため→はじける演出(chargeAndBurstReveal)。
+   New(初取得)は水面から出てくる時点から金色のままタップを待ってから、1枚目と同じburst→flash演出(chargeAndBurstReveal)。
    2枚目以降・進化トリガーはタップ無しで即座にはじける。 */
 async function revealCardSimplifiedForSlot(result){
   await riseSingleCard(result.isNew);
@@ -1561,10 +1563,10 @@ async function revealCardSimplifiedForSlot(result){
     awaitingTap = true; await waitForTap(); awaitingTap = false;
     tapHint.classList.remove("show");
 
-    // タップ後は1枚目のNewカードと同じため→はじける演出・SEにする
+    // タップ後は1枚目のNewカードと同じburst→flash演出・SEにする
     await chargeAndBurstReveal(result.item, "base", false);
   }else{
-    // タップ・ため無しで即座にはじける(2枚目以降・進化トリガー。1枚目の複製と同じ)
+    // タップ無しで即座にはじける(2枚目以降・進化トリガー。1枚目の複製と同じ)
     await revealAutoNoCharge(result.item, "base", false);
   }
   if(result.evolvedTo){
@@ -1604,14 +1606,12 @@ async function playEvolution(result){
   awaitingTap = true; await waitForTap(); awaitingTap = false;
   tapHint.classList.remove("show");
 
-  chargeGlow.classList.add("show");
-  playChargeSE();
-  await wait(680);
-  chargeGlow.classList.remove("show");
-  spawnFlashAndBursts();
-  playBurstSE();
-  await wait(600);
-  applyFrontContent(result.item, result.evolvedTo, true);
+  await new Promise(resolve=>{
+    spawnBurstsThenFlash(()=>{
+      applyFrontContent(result.item, result.evolvedTo, true);
+      resolve();
+    });
+  });
   await wait(150);
   getText.classList.remove("show");
   evoTitle.classList.add("show");
@@ -1621,8 +1621,8 @@ async function playEvolution(result){
 /* 演出順(ガチャを引く):
    暗転 → 水面から5枚が裏面で横一列に出現 → 1枚選んでタップ → 選ばれなかった4枚が消える
    → 選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: 「- TAP -」をタップ→ため→はじける→GET!
-   → 2枚目以降/進化: タップ無し→Newと同じため→はじける→(進化なら進化演出)→GET! */
+   → New: 「- TAP -」をタップ→はじける→GET!
+   → 2枚目以降/進化: タップ無し→Newと同じ演出ではじける→(進化なら進化演出)→GET! */
 async function doSinglePull(){
   if(!UNLIMITED_MODE && state.pullsLeft <= 0) return;
   playSE("pull");
@@ -1649,13 +1649,13 @@ async function doSinglePull(){
 /* 演出順(5連ガチャを引く・1枚ごとに単発と同じ流れを5回繰り返す):
    暗転 → 水面から5枚が裏面で横一列に出現 → 1枚選んでタップ
    → 選ばれなかったカードが消え、選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: タップ→ため→はじける→GET! / 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
+   → New: タップ→はじける→GET! / 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
    → タップして次へ(5枚目まで同じ演出を繰り返す)→ タップして結果一覧へ */
 /* 演出順(5連ガチャを引く):
    暗転 → 5枚を先に抽選 → 「2枚目以降のカード → 進化カード → Newカード」の順に並べ替え
    → 1枚目だけ5枚から選ぶ演出、2～5枚目は1枚だけ水面から出す簡略演出
    → 選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: 裏面のまま金色に光る→タップ→ため→はじける→GET!
+   → New: 裏面のまま金色に光る→タップ→はじける→GET!
    → 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
    → タップして次へ(5枚目まで繰り返す)→ タップして結果一覧へ */
 async function doMultiPull(){

@@ -876,7 +876,7 @@ const POSTERS = [
 const STORAGE_KEY = "floris-noctis-state-v1";
 const FREE_DAILY = 10;
 const SHARE_BONUS = 10;
-const UNLIMITED_MODE = true; // ← 演出確認用。本番では false に戻してください
+const UNLIMITED_MODE = false; // ← 演出確認用。本番では false に戻してください
 
 let state = { owned:{}, pullsLeft:FREE_DAILY, lastDate:null, shareUsedToday:false };
 
@@ -1203,7 +1203,7 @@ fsOverlay.addEventListener("click", (e)=>{ if(e.target===fsOverlay) fsOverlay.cl
 /* ---------------- share bonus ---------------- */
 document.getElementById("shareBtn").addEventListener("click", ()=>{
   if(state.shareUsedToday) return;
-  const text = encodeURIComponent("🌴 今夜、運命の一枚を見つけた 🌴\n\n#FlorisNoctis");
+  const text = encodeURIComponent("🌙 Floris Noctis ガチャを引きました 🌙\n\nナイトプールで出会う17種類のカード\n何が出るかは引いてからのお楽しみ…🫧\n\nたくさん集めると特別版も…👀💎\n\nあなたの1枚目は誰になる？🌴🌙\n\n↓ ガチャはこちら\n\n#FlorisNoctis");
   const url = encodeURIComponent("https://kutara9i.github.io/floris-noctis/");
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank", "noopener,noreferrer");
   state.shareUsedToday = true;

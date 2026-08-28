@@ -880,7 +880,20 @@ const UNLIMITED_MODE = false; // ← 演出確認用。本番では false に戻
 
 let state = { owned:{}, pullsLeft:FREE_DAILY, lastDate:null, shareUsedToday:false };
 
-function todayStr(){ const d=new Date(); return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`; }
+function todayStr(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+
+/* 日付が変わっていたら pullsLeft・shareUsedToday をリセットする。
+   ページ読み込み時だけでなく、タブを開いたまま日付をまたいだ場合にも
+   ガチャ操作・シェア操作の直前に呼んで取りこぼさないようにする。 */
+function checkDailyReset(){
+  const today = todayStr();
+  if(state.lastDate !== today){
+    state.lastDate = today; state.pullsLeft = FREE_DAILY; state.shareUsedToday = false;
+    saveState();
+    return true;
+  }
+  return false;
+}
 
 /* ---------------- localStorage への保存(ガチャを引くたびに呼ばれる) ---------------- */
 function loadState(){
@@ -890,10 +903,7 @@ function loadState(){
   }catch(e){
     console.warn("localStorageが利用できません(プライベートブラウズ中など)。このセッションのみ有効です。", e);
   }
-  const today = todayStr();
-  if(state.lastDate !== today){
-    state.lastDate = today; state.pullsLeft = FREE_DAILY; state.shareUsedToday = false;
-  }
+  checkDailyReset();
   render();
   renderHome();
 }
@@ -1202,8 +1212,9 @@ fsOverlay.addEventListener("click", (e)=>{ if(e.target===fsOverlay) fsOverlay.cl
 
 /* ---------------- share bonus ---------------- */
 document.getElementById("shareBtn").addEventListener("click", ()=>{
+  if(checkDailyReset()) render();
   if(state.shareUsedToday) return;
-  const text = encodeURIComponent("🌙 Floris Noctis ガチャを引きました 🌙\n\nナイトプールで出会う17種類のカード\n何が出るかは引いてからのお楽しみ…🫧\n\nたくさん集めると特別版も…\n\nあなたの1枚目は誰になる？🌴🌙\n↓ ガチャはこちら\n#FlorisNoctis");
+  const text = encodeURIComponent("🌴 今夜、運命の一枚を見つけた 🌴\n\n#FlorisNoctis");
   const url = encodeURIComponent("https://kutara9i.github.io/floris-noctis/");
   window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, "_blank", "noopener,noreferrer");
   state.shareUsedToday = true;
@@ -1625,6 +1636,7 @@ async function playEvolution(result){
    → New: 「- TAP -」をタップ→はじける→GET!
    → 2枚目以降/進化: タップ無し→Newと同じ演出ではじける→(進化なら進化演出)→GET! */
 async function doSinglePull(){
+  if(checkDailyReset()) render();
   if(!UNLIMITED_MODE && state.pullsLeft <= 0) return;
   playSE("pull");
   startWaveAmbient();
@@ -1660,6 +1672,7 @@ async function doSinglePull(){
    → 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
    → タップして次へ(5枚目まで繰り返す)→ タップして結果一覧へ */
 async function doMultiPull(){
+  if(checkDailyReset()) render();
   if(!UNLIMITED_MODE && state.pullsLeft < 5) return;
   playSE("pull5");
   startWaveAmbient();
@@ -1798,6 +1811,12 @@ overlay.addEventListener("click", (e)=>{
   }
 
   // それ以外(アニメーション再生中など)は画面のどこを触っても完全に無反応
+});
+
+document.addEventListener("visibilitychange", ()=>{
+  if(document.visibilityState === "visible" && checkDailyReset()){
+    render(); renderHome();
+  }
 });
 
 loadState();

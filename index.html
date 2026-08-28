@@ -43,7 +43,6 @@ body{
 }
 @media (prefers-reduced-motion: reduce){ *{animation-duration:.01ms !important; transition-duration:.01ms !important;} }
 
-/* ---------- ambient water caustics ---------- */
 .caustics{
   position:fixed; inset:0; z-index:0; pointer-events:none; opacity:0.5;
   background:
@@ -54,7 +53,6 @@ body{
 }
 @keyframes drift{ from{ transform:translateY(0) scale(1); } to{ transform:translateY(-20px) scale(1.05); } }
 
-/* ---------- fixed header ---------- */
 .topbar{
   position:fixed; top:0; left:0; right:0; z-index:60;
   display:flex; align-items:center; justify-content:space-between;
@@ -87,7 +85,6 @@ body{
 .btn-share:hover{ background:var(--pink); color:#1a0512; }
 .btn-share:disabled{ opacity:0.4; cursor:default; background:transparent; color:var(--muted); border-color:var(--line);}
 
-/* ---------- nav ---------- */
 .navbar{
   position:fixed; top:80px; left:0; right:0; z-index:59;
   display:flex; justify-content:center; gap:6px;
@@ -107,7 +104,6 @@ body{
 .view.active{ display:block; animation:fadeIn .4s ease; }
 @keyframes fadeIn{ from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:translateY(0);} }
 
-/* ---------- HOME ---------- */
 .hero{
   position:relative; width:100%; aspect-ratio:1641 / 2048; border-radius:24px; overflow:hidden; min-height:420px;
   background:linear-gradient(160deg, var(--panel-2), var(--panel));
@@ -131,7 +127,6 @@ body{
   z-index:1; text-shadow:0 2px 10px rgba(0,0,0,0.6);
 }
 
-/* ---------- promo banner (above card display) ---------- */
 .promo-banner{
   display:block; width:100%; border-radius:16px; overflow:hidden; margin-bottom:28px;
   border:1px solid var(--line); line-height:0; transition:filter .2s ease, transform .2s ease;
@@ -175,7 +170,6 @@ body{
 }
 .transfer-note{ font-size:11.5px; color:var(--pink); text-align:center; margin:12px 0 0; min-height:1em; }
 
-/* ---------- GACHA ---------- */
 .stage{
   padding:48px 24px 52px; border-radius:24px; position:relative; overflow:hidden;
   background:radial-gradient(ellipse 80% 100% at 50% 20%, rgba(255,95,184,0.12), transparent 65%), var(--panel);
@@ -206,13 +200,11 @@ body{
 .btn-pull:disabled{ background:#1c3a44; color:var(--muted); cursor:default; box-shadow:none; }
 .pull-sub{ font-size:12px; color:var(--muted); text-align:center; }
 
-/* ---------- COLLECTION ---------- */
 .section-head{ margin:6px 0 18px; display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .section-title{ font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:19px; margin:0; }
 .section-title .num{ color:var(--cyan-soft); font-family:'Cormorant Garamond',serif; font-style:italic; font-size:15px; }
 .progress-note{ font-size:12px; color:var(--muted); }
 
-/* 実イラスト画像を敷き詰めて表示するための共通スタイル */
 .illust-photo{
   position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; z-index:0;
 }
@@ -273,7 +265,6 @@ body{
   font-size:13px; color:var(--cyan-soft); opacity:0.85; transform:rotate(-8deg);
 }
 
-/* ---------- fullscreen card viewer ---------- */
 .fs-overlay{
   position:fixed; inset:0; z-index:80; display:none; align-items:center; justify-content:center;
   background:rgba(3,10,14,0.94); backdrop-filter:blur(4px); padding:24px;
@@ -302,14 +293,13 @@ body{
   width:34px; height:34px; cursor:pointer; font-size:22px; line-height:1;
 }
 
-/* ---------- stage select (通常/特別 choice) ---------- */
 .stage-select{
   width:min(400px, 92vw); border-radius:22px; position:relative; padding:30px 18px 24px;
   background:var(--panel); border:1px solid var(--line); box-shadow:var(--shadow);
   display:flex; flex-direction:column; align-items:center; gap:18px; animation:fsIn .3s cubic-bezier(.2,1,.4,1);
 }
 .stage-select-title{ font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:16px; text-align:center; }
-/* 常に横一列に3枚並べる */
+
 .stage-options{ display:flex; gap:8px; justify-content:center; flex-wrap:nowrap; width:100%; }
 .stage-opt{
   flex:1 1 0; min-width:0; max-width:112px; aspect-ratio:3/4.3; border-radius:12px; position:relative; overflow:hidden;
@@ -340,12 +330,10 @@ body{
   -webkit-mask-composite:xor; mask-composite:exclude; animation:holo 3.5s linear infinite;
 }
 
-/* ---------- pull reveal modal ---------- */
 .modal-overlay{ position:fixed; inset:0; z-index:70; display:none; align-items:center; justify-content:center; background:rgba(3,10,14,0); transition:background .35s ease; }
 .modal-overlay.show{ display:flex; }
 .modal-overlay.darken{ background:rgba(3,10,14,0.92); }
 
-/* ---- night water surface the card rises out of ---- */
 .water-scene{
   position:absolute; left:0; right:0; bottom:0; height:64%; overflow:hidden; z-index:1;
   pointer-events:none; opacity:0; transition:opacity .5s ease;
@@ -385,7 +373,6 @@ body{
 .burst.go{ animation:burstAnim 1.0s ease-out forwards; }
 @keyframes burstAnim{ 0%{opacity:0; transform:scale(0);} 20%{opacity:1;} 100%{opacity:0; transform:scale(40);} }
 
-/* ため → 大きく画面全体を覆うほど光がはじける演出(SEの尺に合わせて8.1秒かけて溜める) */
 .charge-glow{
   position:absolute; left:50%; top:50%; width:36px; height:36px; border-radius:50%;
   transform:translate(-50%,-50%) scale(.25); opacity:0; z-index:3; pointer-events:none;
@@ -435,7 +422,7 @@ body{
 .card-face{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; box-shadow:var(--shadow); }
 .card-face.back{ background:linear-gradient(160deg,#123342,#0c2530); border:1px solid var(--pink); }
 .card-face.back::after{ content:'✦'; font-size:44px; color:var(--pink); text-shadow:0 0 20px rgba(255,95,184,0.75); }
-/* New(初取得)カードが裏面のまま中央に来たとき、金色に光らせて予告する */
+
 .card-face.back.new-tease{
   border-color:var(--gold);
   animation:newTeasePulse 1.1s ease-in-out infinite;
@@ -453,14 +440,12 @@ body{
 .card-face.front.evolved{ border-image: linear-gradient(135deg, #ff8a3d, var(--pink)) 1; box-shadow:0 0 30px rgba(255,138,61,0.25), 0 0 30px rgba(255,95,184,0.25), var(--shadow); }
 .card-face.front .photo-caption .rarity{ color:var(--cyan-soft); margin-top:2px; }
 
-/* 5枚から1枚選ぶときの案内文 */
 .field-prompt{
   font-family:'Zen Kaku Gothic New',sans-serif; font-weight:700; font-size:12.5px; color:var(--pink);
   letter-spacing:0.08em; opacity:0; text-shadow:0 0 10px rgba(255,95,184,0.55); text-align:center;
 }
 .field-prompt.show{ animation:fadeUp .4s ease forwards; }
 
-/* 5枚横一列のカード選択フィールド */
 .card-field{ display:flex; gap:9px; justify-content:center; align-items:center; opacity:0; position:relative; z-index:2; }
 .card-field.show{ animation:fieldRise 900ms cubic-bezier(.16,.55,.2,1) forwards; }
 @keyframes fieldRise{ 0%{opacity:0; transform:translateY(150px);} 100%{opacity:1; transform:translateY(0);} }
@@ -476,7 +461,7 @@ body{
 .field-card.fade-out{ opacity:0; transform:translateY(24px) scale(.7); pointer-events:none; }
 .field-card.revealed{ cursor:default; }
 .field-card.revealed::before{ display:none; }
-/* New(初取得)カードは水面から出てくる時点から金色に光らせる */
+
 .field-card.new-tease{
   border-color:var(--gold);
   animation:newTeasePulse 1.1s ease-in-out infinite;
@@ -590,9 +575,7 @@ footer{
   }
 }
 
-/* ---------- smartphone header / nav layout ---------- */
 @media (max-width: 600px){
-  /* スマホではトップバーの内容が縦に並ぶため、高さを確保してナビと重ならないようにする */
   body{
     padding-top: 136px;
   }
@@ -660,9 +643,7 @@ footer{
 </head>
 <body>
 
-<!-- ── 差し替えポイント: 波の音。ファイルを同名のまま差し替えれば音源を変更できます ── -->
 <audio id="waveAmbient" src="sounds/wave-ambient.mp3" loop preload="auto"></audio>
-<!-- ── 差し替えポイント: カードの光がはじける演出のSE(タップ→ため→はじける) ── -->
 <audio id="chargeSpellSE" src="sounds/charge-spell.mp3" preload="auto"></audio>
 <audio id="burstSparkleSE" src="sounds/burst-sparkle.mp3" preload="auto"></audio>
 
@@ -690,9 +671,7 @@ footer{
 
 <div class="wrap">
 
-  <!-- HOME -->
   <section class="view active" id="view-home">
-    <!-- バナー画像(img src)は実際のものに差し替えてください -->
     <a class="promo-banner" id="promoBanner" href="https://vrchat.com/home/group/grp_f4199ca1-a6fc-46e4-b405-8cadde4e6985" target="_blank" rel="noopener noreferrer">
       <img src="images/poster/banner.webp">
     </a>
@@ -710,7 +689,6 @@ footer{
     </div>
   </section>
 
-  <!-- GACHA -->
   <section class="view" id="view-gacha">
     <div class="stage">
       <div class="ticket"></div>
@@ -722,7 +700,6 @@ footer{
     </div>
   </section>
 
-  <!-- COLLECTION -->
   <section class="view" id="view-collection">
     <div class="section-head">
       <h2 class="section-title">コレクション</h2>
@@ -766,7 +743,6 @@ footer{
 </footer>
 </div>
 
-<!-- データ引き継ぎ(バックアップコードの発行・復元) -->
 <div class="fs-overlay" id="transferOverlay">
   <div class="transfer-modal" id="transferModal">
     <button class="fs-close" id="transferClose">✕</button>
@@ -788,7 +764,6 @@ footer{
   </div>
 </div>
 
-<!-- fullscreen card viewer (スチルのみ大画面表示・所持数は表示しない) -->
 <div class="fs-overlay" id="fsOverlay">
   <div class="fs-wrap" id="fsWrap">
     <button class="fs-close" id="fsClose">✕</button>
@@ -798,7 +773,6 @@ footer{
   </div>
 </div>
 
-<!-- 通常/サイン/特別 の版選択 -->
 <div class="fs-overlay" id="stageOverlay">
   <div class="stage-select" id="stageSelectCard">
     <button class="fs-close" id="stageClose">✕</button>
@@ -807,7 +781,6 @@ footer{
   </div>
 </div>
 
-<!-- pull reveal modal -->
 <div class="modal-overlay" id="modalOverlay">
   <div class="water-scene" id="waterScene">
     <div class="surface-glow" id="surfaceGlow"></div>
@@ -845,10 +818,6 @@ footer{
 </div>
 
 <script>
-/* ---------------- data ---------------- */
-// ── 差し替えポイント ──────────────────────────────────────────
-// img: "images/card-XX.webp" を書き換える(またはファイルの中身を同名のまま差し替える)だけで
-// 本番イラストに切り替えられます。img を空文字 "" にすると絵文字(glyph)表示に戻ります。
 const ILLUSTRATIONS = [
   {id:1,  name:"くみすけ", glyph:"🍹", hue:180},
   {id:2,  name:"あにぬす", glyph:"🌙", hue:200},
@@ -882,9 +851,6 @@ let state = { owned:{}, pullsLeft:FREE_DAILY, lastDate:null, shareUsedToday:fals
 
 function todayStr(){ const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
 
-/* 日付が変わっていたら pullsLeft・shareUsedToday をリセットする。
-   ページ読み込み時だけでなく、タブを開いたまま日付をまたいだ場合にも
-   ガチャ操作・シェア操作の直前に呼んで取りこぼさないようにする。 */
 function checkDailyReset(){
   const today = todayStr();
   if(state.lastDate !== today){
@@ -895,7 +861,6 @@ function checkDailyReset(){
   return false;
 }
 
-/* ---------------- localStorage への保存(ガチャを引くたびに呼ばれる) ---------------- */
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -915,9 +880,6 @@ function saveState(){
   }
 }
 
-/* ---------------- データ引き継ぎ(バックアップコード) ----------------
-   「FN-XXXX-XXXX-...」形式のコードを生成/復元する。
-   Base32(英大文字+数字のみ)でエンコードしているので、コピペはもちろん手入力でも扱いやすい。 */
 const B32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 function base32Encode(bytes){
   let bits = 0, value = 0, output = "";
@@ -948,7 +910,6 @@ function base32Decode(str){
   return new Uint8Array(bytes);
 }
 function packStateCompact(){
-  // 保有枚数を id 順の配列にすることで、キー名を持たせるより短くなる
   const ownedArr = ILLUSTRATIONS.map(it => state.owned[it.id] || 0);
   return JSON.stringify([ownedArr, state.pullsLeft, state.shareUsedToday ? 1 : 0, state.lastDate || ""]);
 }
@@ -978,7 +939,6 @@ function restoreFromBackupCode(code){
   renderHome();
 }
 
-/* ---------------- データ引き継ぎモーダルのUI ---------------- */
 const transferOverlay = document.getElementById("transferOverlay");
 const transferOutView = document.getElementById("transferOutView");
 const transferInView = document.getElementById("transferInView");
@@ -1044,7 +1004,6 @@ function stageOf(count){
 }
 const stageLabel = { locked:"未所持", base:"通常", special:"特別" };
 
-/* ── 差し替えポイント: 画像があれば画像、無ければ絵文字を表示する共通ヘルパー ── */
 function glyphBlockHtml(item){
   return `<div class="glyph" style="filter:hue-rotate(${item.hue-200}deg)">${item.glyph}</div>`;
 }
@@ -1062,8 +1021,6 @@ function photoBlockHtml(item, captionHtml, stg="base"){
     ${caption}`;
 }
 
-// 画像の読み込みに失敗したカードは、絵文字表示に自動でフォールバックする
-// (img要素のerrorイベントはバブリングしないため capture:true で拾う)
 document.addEventListener("error", (e)=>{
   const img = e.target;
   if(img && img.classList && img.classList.contains("illust-photo")){
@@ -1075,7 +1032,6 @@ document.addEventListener("error", (e)=>{
   }
 }, true);
 
-/* ---------------- nav ---------------- */
 document.querySelectorAll(".nav-btn").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     playSE("nav");
@@ -1088,7 +1044,6 @@ document.querySelectorAll(".nav-btn").forEach(btn=>{
   });
 });
 
-/* ---------------- home random art ---------------- */
 function renderHome(){
   const pool = [...POSTERS.map(p=>({type:"poster", ...p}))];
   ILLUSTRATIONS.forEach(it=>{
@@ -1119,9 +1074,7 @@ function renderHome(){
 
   document.getElementById("heroNote").style.display = pick.type==="poster" ? "block" : "none";
 }
-/* ホームはサイトの読み込み時・他ページからホームに戻るたびに renderHome() が呼ばれ、表示がランダムに切り替わる */
 
-/* ---------------- collection render ---------------- */
 function render(){
   document.getElementById("pullsLeft").textContent = UNLIMITED_MODE ? "∞" : state.pullsLeft;
   document.getElementById("pullBtn1").disabled = !UNLIMITED_MODE && state.pullsLeft <= 0;
@@ -1142,8 +1095,6 @@ function render(){
     const count = state.owned[item.id] || 0;
     const owned = count > 0;
     if(owned) ownedTypes++;
-
-    // コレクション一覧は常に進化前(通常)カットで表示し、所持数のみ出す
     const slot = document.createElement("div");
     slot.className = `slot st-base ${owned ? '' : 'locked'}`;
     if(owned){
@@ -1165,7 +1116,6 @@ function render(){
   document.getElementById("progressNote").textContent = `${ownedTypes} / ${ILLUSTRATIONS.length} 種類 獲得`;
 }
 
-/* ---------------- stage select (通常/特別) ---------------- */
 const STAGE_ORDER = ["base","special"];
 const STAGE_THRESHOLD = { base:1, special:5 };
 const stageOverlay = document.getElementById("stageOverlay");
@@ -1196,7 +1146,6 @@ function openStageSelect(item){
 document.getElementById("stageClose").addEventListener("click", ()=>{ playSE("nav"); stageOverlay.classList.remove("show"); });
 stageOverlay.addEventListener("click", (e)=>{ if(e.target===stageOverlay) stageOverlay.classList.remove("show"); });
 
-/* ---------------- fullscreen card view (スチルのみ・所持数表示なし) ---------------- */
 const fsOverlay = document.getElementById("fsOverlay");
 const fsContent = document.getElementById("fsContent");
 function openFullscreen(item, stg){
@@ -1210,7 +1159,6 @@ function openFullscreen(item, stg){
 document.getElementById("fsClose").addEventListener("click", ()=>{ playSE("nav"); fsOverlay.classList.remove("show"); });
 fsOverlay.addEventListener("click", (e)=>{ if(e.target===fsOverlay) fsOverlay.classList.remove("show"); });
 
-/* ---------------- share bonus ---------------- */
 document.getElementById("shareBtn").addEventListener("click", ()=>{
   if(checkDailyReset()) render();
   if(state.shareUsedToday) return;
@@ -1222,7 +1170,6 @@ document.getElementById("shareBtn").addEventListener("click", ()=>{
   saveState(); render();
 });
 
-/* ---------------- SE (Web Audio APIで合成する簡易効果音・音声ファイル不要) ---------------- */
 let audioCtx = null;
 function getAudioCtx(){
   if(!audioCtx){
@@ -1248,8 +1195,6 @@ function playTone(freq, duration, type, gainPeak, startDelay){
   osc.start(t0);
   osc.stop(t0 + duration + 0.02);
 }
-// ── 差し替えポイント: 本物の効果音ファイルを使いたい場合は、この playSE の中身を
-// new Audio("sounds/xxx.mp3").play() に置き換えるだけでOK
 function playSE(kind){
   switch(kind){
     case "nav":   playTone(520, 0.09, "sine", 0.12); break;
@@ -1260,7 +1205,6 @@ function playSE(kind){
   }
 }
 
-/* ---------------- 波の音(ガチャ演出中だけループ再生) ---------------- */
 const waveAmbient = document.getElementById("waveAmbient");
 function startWaveAmbient(){
   waveAmbient.currentTime = 0;
@@ -1272,10 +1216,6 @@ function stopWaveAmbient(){
   waveAmbient.currentTime = 0;
 }
 
-/* ---------------- カードの光がはじける演出のSE(タップ→ため→はじける) ---------------- */
-// ── 差し替えポイント: 秒数はSEファイルの実尺(ffprobeで計測)に合わせています。
-// SEを別のファイルに差し替えたら、この2つの数値と下のCSSアニメーション時間(8.1s / 1.8s)も
-// 新しいファイルの長さに合わせて調整してください。
 const CHARGE_SE_MS = 2403; // charge-spell.mp3 の長さ
 const BURST_SE_MS = 1802;  // burst-sparkle.mp3 の長さ
 const chargeSpellSE = document.getElementById("chargeSpellSE");
@@ -1295,7 +1235,6 @@ function stopChargeAndBurstSE(){
   burstSparkleSE.pause(); burstSparkleSE.currentTime = 0;
 }
 
-/* ---------------- pull flow ---------------- */
 const overlay = document.getElementById("modalOverlay");
 const getText = document.getElementById("getText");
 const evoTitle = document.getElementById("evoTitle");
@@ -1415,7 +1354,6 @@ async function resetModalVisuals(){
   waterScene.style.opacity = "";
 }
 
-/* 次のカードに備えて、中央カード周りの表示だけをリセットする(フィールドやモーダル全体はそのまま) */
 function resetCardFace(){
   getText.classList.remove("show");
   evoTitle.classList.remove("show");
@@ -1429,7 +1367,6 @@ function resetCardFace(){
   newBadge.classList.remove("show"); newBadge.innerHTML = "";
 }
 
-/* 水面から5枚のカードが裏面のまま横一列に出現する(呼ぶたびに毎回リフレッシュ) */
 async function riseField(){
   cardWrap.style.display = "none";
   fieldCards.forEach(c=>{ c.className = "field-card"; c.innerHTML = ""; });
@@ -1442,7 +1379,6 @@ async function riseField(){
   surfaceGlow.classList.remove("on");
 }
 
-/* 5連ガチャの2～5枚目：水面からカードを1枚だけ出す。Newカードは出てくる時点から金色に光らせる */
 async function riseSingleCard(isNew){
   cardWrap.style.display = "none";
   cardField.style.display = "flex";
@@ -1461,7 +1397,6 @@ async function riseSingleCard(isNew){
   surfaceGlow.classList.remove("on");
 }
 
-/* 選ばれなかった4枚が消え、選ばれた1枚が中央のカードに切り替わる */
 async function collapseFieldToChosen(chosenIdx, isNew){
   let othersVisible = false;
   fieldCards.forEach((c, i)=>{
@@ -1470,8 +1405,6 @@ async function collapseFieldToChosen(chosenIdx, isNew){
       if(c.style.display !== "none") othersVisible = true;
     }
   });
-  // 他に表示中のカードがあるときだけ、フェードアウトを待つ
-  // (簡略ルートは選ばれた1枚しか出ていないので、待たずに即座に大きくする)
   if(othersVisible){
     await wait(350);
   }
@@ -1482,19 +1415,15 @@ async function collapseFieldToChosen(chosenIdx, isNew){
   cardWrap.style.opacity = "0";
   cardWrap.style.transform = "scale(.72) translateY(26px)";
   cardBack.style.display = "flex";
-  // New(初取得)カードは、裏面のまま金色に光った状態を引き継ぐ
   cardBack.classList.toggle("new-tease", !!isNew);
   cardFront.classList.add("hidden-face");
   forceReflow(cardWrap);
-  // 出現(フェードイン)と拡大を同時に行う
   cardWrap.style.transition = "opacity .5s ease, transform .5s cubic-bezier(.2,1,.4,1)";
   cardWrap.style.opacity = "1";
   cardWrap.style.transform = "scale(1) translateY(0)";
   await wait(500);
 }
 
-/* burst→600ms→flashで表面(または進化後スチル)が見える(ためは無し)
-   ※ タップ待ちの後に呼ぶ共通処理。1枚目・2〜5枚目のNewカードで同じ演出・SEになるよう共通化 */
 async function chargeAndBurstReveal(item, stg, evolved){
   await new Promise(resolve=>{
     spawnBurstsThenFlash(()=>{
@@ -1508,13 +1437,9 @@ async function chargeAndBurstReveal(item, stg, evolved){
   await wait(120);
 }
 
-/* タップ → 光がはじけて(burst-sparkle.mp3)0.6秒後に閃光が光り、表面(または進化後スチル)が見える(ためは無し) */
 async function chargeAndReveal(item, stg, evolved){
-  // New(初取得)カードは、水面から出てきた時点からずっと金色のまま(collapseFieldToChosenで設定済み)
   tapHint.textContent = "- TAP -";
   tapHint.classList.add("show");
-
-// ユーザーのタップを待つ(タップしても金色のまま)
   awaitingTap = true; await waitForTap(); awaitingTap = false;
   tapHint.classList.remove("show");
 
@@ -1529,9 +1454,6 @@ async function showGetAndBadge(result){
   await wait(300);
 }
 
-/* 2枚目以降・進化トリガー時の初回表示:
-   Newカードと同じ「burst→600ms→flash」の演出・SE(ため無し)。
-   ただしNewカードと違いタップ待ちは入れない。 */
 async function revealAutoNoCharge(item, stg, evolved){
   await new Promise(resolve=>{
     spawnBurstsThenFlash(()=>{
@@ -1545,14 +1467,11 @@ async function revealAutoNoCharge(item, stg, evolved){
   await wait(120);
 }
 
-/* カードの種類(New/2枚目以降/進化)に応じて演出を出し分ける */
 async function revealCardByType(result){
   if(result.isNew){
-    // New: タップ→はじける(burst-sparkle.mp3)→GET!
     await chargeAndReveal(result.item, "base", false);
     await showGetAndBadge(result);
   }else{
-    // 2枚目以降 or 進化トリガー: タップ無しで即はじける
     await revealAutoNoCharge(result.item, "base", false);
     if(result.evolvedTo){
       await playEvolution(result);
@@ -1561,24 +1480,17 @@ async function revealCardByType(result){
   }
 }
 
-/* 5連の2～5枚目(簡略版):1枚だけ水面から出してそのまま中央へ。
-   New(初取得)は水面から出てくる時点から金色のままタップを待ってから、1枚目と同じburst→flash演出(chargeAndBurstReveal)。
-   2枚目以降・進化トリガーはタップ無しで即座にはじける。 */
 async function revealCardSimplifiedForSlot(result){
   await riseSingleCard(result.isNew);
   await collapseFieldToChosen(0, result.isNew);
 
   if(result.isNew){
-    // New: 金色に光ったままタップを待つ
     tapHint.textContent = "- TAP -";
     tapHint.classList.add("show");
     awaitingTap = true; await waitForTap(); awaitingTap = false;
     tapHint.classList.remove("show");
-
-    // タップ後は1枚目のNewカードと同じburst→flash演出・SEにする
     await chargeAndBurstReveal(result.item, "base", false);
   }else{
-    // タップ無しで即座にはじける(2枚目以降・進化トリガー。1枚目の複製と同じ)
     await revealAutoNoCharge(result.item, "base", false);
   }
   if(result.evolvedTo){
@@ -1587,7 +1499,6 @@ async function revealCardSimplifiedForSlot(result){
   await showGetAndBadge(result);
 }
 
-/* 5枚のカードから1枚を選ばせる(単発/5連の1枚目)、または画面タップでどれか1枚が自動で選ばれる */
 async function revealOneCardViaField({ autoChoose, isNew }){
   await riseField();
 
@@ -1630,11 +1541,6 @@ async function playEvolution(result){
   await wait(300);
 }
 
-/* 演出順(ガチャを引く):
-   暗転 → 水面から5枚が裏面で横一列に出現 → 1枚選んでタップ → 選ばれなかった4枚が消える
-   → 選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: 「- TAP -」をタップ→はじける→GET!
-   → 2枚目以降/進化: タップ無し→Newと同じ演出ではじける→(進化なら進化演出)→GET! */
 async function doSinglePull(){
   if(checkDailyReset()) render();
   if(!UNLIMITED_MODE && state.pullsLeft <= 0) return;
@@ -1659,18 +1565,6 @@ async function doSinglePull(){
   closeBtn.classList.add("show");
 }
 
-/* 演出順(5連ガチャを引く・1枚ごとに単発と同じ流れを5回繰り返す):
-   暗転 → 水面から5枚が裏面で横一列に出現 → 1枚選んでタップ
-   → 選ばれなかったカードが消え、選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: タップ→はじける→GET! / 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
-   → タップして次へ(5枚目まで同じ演出を繰り返す)→ タップして結果一覧へ */
-/* 演出順(5連ガチャを引く):
-   暗転 → 5枚を先に抽選 → 「2枚目以降のカード → 進化カード → Newカード」の順に並べ替え
-   → 1枚目だけ5枚から選ぶ演出、2～5枚目は1枚だけ水面から出す簡略演出
-   → 選ばれた1枚が中央へ(裏面のまま、大きくなりながら出現)
-   → New: 裏面のまま金色に光る→タップ→はじける→GET!
-   → 2枚目以降・進化: タップ無しで即はじける→(進化なら進化演出)→GET!
-   → タップして次へ(5枚目まで繰り返す)→ タップして結果一覧へ */
 async function doMultiPull(){
   if(checkDailyReset()) render();
   if(!UNLIMITED_MODE && state.pullsLeft < 5) return;
@@ -1685,7 +1579,6 @@ async function doMultiPull(){
   overlay.classList.add("darken");
   await wait(400);
 
-  // 5枚を先に抽選
   const drawn = [];
   for(let i=0;i<5;i++){
     const r = drawOne();
@@ -1696,8 +1589,6 @@ async function doMultiPull(){
     saveState();
   }
 
-// 「Get枚数」の順番で演出する
-// New = 1枚目、2枚目、3枚目……の順
 const results = [...drawn].sort((a,b) => {
   const aCount = Number(a.newCount ?? 1);
   const bCount = Number(b.newCount ?? 1);
@@ -1714,18 +1605,15 @@ const results = [...drawn].sort((a,b) => {
     const r = results[i];
 
     if(i === 0){
-      // 1枚目だけ5枚から選ぶ演出
       await revealOneCardViaField({ autoChoose:false, isNew: r.isNew });
       await revealCardByType(r);
     }else{
-      // 2～5枚目は1枚だけ出す簡略演出(タップ・ため無し)
       await revealCardSimplifiedForSlot(r);
     }
 
     render();
     renderHome();
 
-    // GET!とバッジを表示したまま、次のカードへ進むタップを待つ
     tapHint.textContent = i < 4
       ? `タップして次へ (${i+1}/5)`
       : "タップして結果を見る (5/5)";
@@ -1736,7 +1624,6 @@ const results = [...drawn].sort((a,b) => {
     tapHint.classList.remove("show");
   }
 
-  // 最後に5枚の結果一覧
   getText.classList.remove("show");
   evoTitle.classList.remove("show");
   cardWrap.style.display = "none";
@@ -1794,13 +1681,10 @@ function closeModal(){
 }
 closeBtn.addEventListener("click", (e)=>{ e.stopPropagation(); closeModal(); });
 overlay.addEventListener("click", (e)=>{
-  // 5枚から選ぶ場面：field-card自身のクリックハンドラで処理済み(stopPropagationしている)。
-  // それ以外(背景)をタップしても何も起きない = 明示的に1枚選ぶまで反応しない。
   if(fieldChoiceResolve){
     return;
   }
 
-  // 「- TAP -」やタップして次へ、などのプロンプトが出ている時だけ反応する
   if(awaitingTap){
     playSE("nav");
     const resolve = tapResolve;
@@ -1809,8 +1693,6 @@ overlay.addEventListener("click", (e)=>{
     if(resolve) resolve();
     return;
   }
-
-  // それ以外(アニメーション再生中など)は画面のどこを触っても完全に無反応
 });
 
 document.addEventListener("visibilitychange", ()=>{

@@ -77,6 +77,25 @@ body{
   white-space:nowrap;
 }
 .pill b{ color:var(--cyan-soft); font-size:15px; font-family:'Zen Kaku Gothic New',sans-serif; }
+
+.volume-pill{ padding:8px 14px; }
+.volume-pill input[type="range"]{
+  -webkit-appearance:none; appearance:none;
+  width:80px; height:4px; border-radius:100px;
+  background:var(--line); outline:none; cursor:pointer;
+}
+.volume-pill input[type="range"]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width:14px; height:14px; border-radius:50%;
+  background:linear-gradient(90deg, var(--cyan), var(--pink));
+  cursor:pointer; border:none;
+}
+.volume-pill input[type="range"]::-moz-range-thumb{
+  width:14px; height:14px; border-radius:50%;
+  background:linear-gradient(90deg, var(--cyan), var(--pink));
+  cursor:pointer; border:none;
+}
+.volume-pill .volume-icon{ font-size:14px; line-height:1; cursor:pointer; user-select:none; }
 .btn-share{
   background:transparent; border:1px solid var(--pink); color:#ffd3ec;
   border-radius:100px; padding:8px 16px; font-size:12.5px; cursor:pointer;
@@ -606,6 +625,11 @@ footer{
     width: 100%;
     justify-content: center;
     gap: 7px;
+    flex-wrap: wrap;
+  }
+
+  .volume-pill input[type="range"]{
+    width: 56px;
   }
 
   .pill{
@@ -658,6 +682,10 @@ footer{
     </div>
   </div>
   <div class="status-panel">
+    <div class="pill volume-pill">
+      <span class="volume-icon" id="volumeIcon">🔊</span>
+      <input type="range" id="volumeSlider" min="0" max="100" value="80" aria-label="音量">
+    </div>
     <div class="pill">本日残り <b id="pullsLeft">10</b> 回</div>
     <button class="btn-share" id="shareBtn">𝕏 でシェアして+10回</button>
   </div>
@@ -1170,6 +1198,13 @@ document.getElementById("shareBtn").addEventListener("click", ()=>{
   saveState(); render();
 });
 
+const VOLUME_STORAGE_KEY = "floris-noctis-volume";
+let masterVolume = 0.8;
+try{
+  const savedVol = localStorage.getItem(VOLUME_STORAGE_KEY);
+  if(savedVol !== null) masterVolume = Math.min(1, Math.max(0, parseFloat(savedVol)));
+}catch(e){}
+
 let audioCtx = null;
 function getAudioCtx(){
   if(!audioCtx){
@@ -1189,7 +1224,7 @@ function playTone(freq, duration, type, gainPeak, startDelay){
   osc.frequency.value = freq;
   const t0 = ctx.currentTime + startDelay;
   gain.gain.setValueAtTime(0, t0);
-  gain.gain.linearRampToValueAtTime(gainPeak, t0 + 0.012);
+  gain.gain.linearRampToValueAtTime(gainPeak * masterVolume, t0 + 0.012);
   gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
   osc.connect(gain).connect(ctx.destination);
   osc.start(t0);
@@ -1205,10 +1240,14 @@ function playSE(kind){
   }
 }
 
+const BASE_VOL_WAVE = 0.5;   // wave-ambient.mp3 の基準音量
+const BASE_VOL_BURST = 0.67; // burst-sparkle.mp3 の基準音量
+const BASE_VOL_CHARGE = 1.0; // charge-spell.mp3 の基準音量
+
 const waveAmbient = document.getElementById("waveAmbient");
 function startWaveAmbient(){
   waveAmbient.currentTime = 0;
-  waveAmbient.volume = 0.5;
+  waveAmbient.volume = BASE_VOL_WAVE * masterVolume;
   waveAmbient.play().catch(()=>{ /* 自動再生がブロックされた場合は無視 */ });
 }
 function stopWaveAmbient(){
@@ -1220,7 +1259,8 @@ const CHARGE_SE_MS = 2403; // charge-spell.mp3 の長さ
 const BURST_SE_MS = 1802;  // burst-sparkle.mp3 の長さ
 const chargeSpellSE = document.getElementById("chargeSpellSE");
 const burstSparkleSE = document.getElementById("burstSparkleSE");
-burstSparkleSE.volume = 0.67; // burst-sparkle.mp3 の音量
+chargeSpellSE.volume = BASE_VOL_CHARGE * masterVolume;
+burstSparkleSE.volume = BASE_VOL_BURST * masterVolume;
 function playChargeSE(){
   chargeSpellSE.currentTime = 0;
   chargeSpellSE.playbackRate = 1.5;
@@ -1699,6 +1739,42 @@ document.addEventListener("visibilitychange", ()=>{
   if(document.visibilityState === "visible" && checkDailyReset()){
     render(); renderHome();
   }
+});
+
+/* ---------------- 音量スライダー ---------------- */
+const volumeSlider = document.getElementById("volumeSlider");
+const volumeIcon = document.getElementById("volumeIcon");
+let volumeBeforeMute = masterVolume > 0 ? masterVolume : 0.8;
+
+function volumeIconFor(vol){
+  if(vol <= 0) return "🔇";
+  if(vol < 0.5) return "🔉";
+  return "🔊";
+}
+function applyMasterVolume(){
+  waveAmbient.volume = BASE_VOL_WAVE * masterVolume;
+  chargeSpellSE.volume = BASE_VOL_CHARGE * masterVolume;
+  burstSparkleSE.volume = BASE_VOL_BURST * masterVolume;
+  volumeIcon.textContent = volumeIconFor(masterVolume);
+  try{ localStorage.setItem(VOLUME_STORAGE_KEY, String(masterVolume)); }catch(e){}
+}
+volumeSlider.value = Math.round(masterVolume * 100);
+applyMasterVolume();
+
+volumeSlider.addEventListener("input", ()=>{
+  masterVolume = Math.min(1, Math.max(0, volumeSlider.value / 100));
+  if(masterVolume > 0) volumeBeforeMute = masterVolume;
+  applyMasterVolume();
+});
+volumeIcon.addEventListener("click", ()=>{
+  if(masterVolume > 0){
+    volumeBeforeMute = masterVolume;
+    masterVolume = 0;
+  }else{
+    masterVolume = volumeBeforeMute;
+  }
+  volumeSlider.value = Math.round(masterVolume * 100);
+  applyMasterVolume();
 });
 
 loadState();

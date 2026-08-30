@@ -78,24 +78,43 @@ body{
 }
 .pill b{ color:var(--cyan-soft); font-size:15px; font-family:'Zen Kaku Gothic New',sans-serif; }
 
-.volume-pill{ padding:8px 14px; }
-.volume-pill input[type="range"]{
+.settings-btn{
+  position:fixed; top:88px; right:16px; z-index:80;
+  width:36px; height:36px; border-radius:50%;
+  background:rgba(3,20,28,0.78); border:1px solid var(--line); backdrop-filter:blur(10px);
+  color:var(--muted); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:color .2s, transform .3s, border-color .2s;
+}
+.settings-btn:hover{ color:var(--ink); border-color:var(--cyan-soft); }
+.settings-btn.open{ color:var(--cyan-soft); border-color:var(--cyan-soft); transform:rotate(45deg); }
+
+.settings-popover{
+  position:fixed; top:130px; right:16px; z-index:79;
+  background:rgba(3,20,28,0.92); border:1px solid var(--line); backdrop-filter:blur(10px);
+  border-radius:16px; padding:14px 16px;
+  opacity:0; visibility:hidden; transform:translateY(-6px);
+  transition:opacity .2s, transform .2s, visibility .2s;
+}
+.settings-popover.show{ opacity:1; visibility:visible; transform:translateY(0); }
+
+.settings-row{ display:flex; align-items:center; gap:10px; }
+.volume-icon{ font-size:15px; line-height:1; cursor:pointer; user-select:none; }
+.settings-row input[type="range"]{
   -webkit-appearance:none; appearance:none;
-  width:80px; height:4px; border-radius:100px;
+  width:110px; height:4px; border-radius:100px;
   background:var(--line); outline:none; cursor:pointer;
 }
-.volume-pill input[type="range"]::-webkit-slider-thumb{
+.settings-row input[type="range"]::-webkit-slider-thumb{
   -webkit-appearance:none; appearance:none;
   width:14px; height:14px; border-radius:50%;
   background:linear-gradient(90deg, var(--cyan), var(--pink));
   cursor:pointer; border:none;
 }
-.volume-pill input[type="range"]::-moz-range-thumb{
+.settings-row input[type="range"]::-moz-range-thumb{
   width:14px; height:14px; border-radius:50%;
   background:linear-gradient(90deg, var(--cyan), var(--pink));
   cursor:pointer; border:none;
 }
-.volume-pill .volume-icon{ font-size:14px; line-height:1; cursor:pointer; user-select:none; }
 .btn-share{
   background:transparent; border:1px solid var(--pink); color:#ffd3ec;
   border-radius:100px; padding:8px 16px; font-size:12.5px; cursor:pointer;
@@ -628,8 +647,20 @@ footer{
     flex-wrap: wrap;
   }
 
-  .volume-pill input[type="range"]{
-    width: 56px;
+  .settings-btn{
+    top: 97px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .settings-popover{
+    top: 138px;
+    right: 10px;
+  }
+
+  .settings-row input[type="range"]{
+    width: 88px;
   }
 
   .pill{
@@ -682,12 +713,21 @@ footer{
     </div>
   </div>
   <div class="status-panel">
-    <div class="pill volume-pill">
-      <span class="volume-icon" id="volumeIcon">🔊</span>
-      <input type="range" id="volumeSlider" min="0" max="100" value="80" aria-label="音量">
-    </div>
     <div class="pill">本日残り <b id="pullsLeft">10</b> 回</div>
     <button class="btn-share" id="shareBtn">𝕏 でシェアして+10回</button>
+  </div>
+</div>
+
+<button class="settings-btn" id="settingsBtn" aria-label="設定" aria-expanded="false">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="3"></circle>
+    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+  </svg>
+</button>
+<div class="settings-popover" id="settingsPopover">
+  <div class="settings-row">
+    <span class="volume-icon" id="volumeIcon">🔊</span>
+    <input type="range" id="volumeSlider" min="0" max="100" value="80" aria-label="音量">
   </div>
 </div>
 
@@ -1776,6 +1816,56 @@ volumeIcon.addEventListener("click", ()=>{
   volumeSlider.value = Math.round(masterVolume * 100);
   applyMasterVolume();
 });
+
+/* ---------------- 設定(歯車)ポップオーバー ---------------- */
+const settingsBtn = document.getElementById("settingsBtn");
+const settingsPopover = document.getElementById("settingsPopover");
+function closeSettingsPopover(){
+  settingsPopover.classList.remove("show");
+  settingsBtn.classList.remove("open");
+  settingsBtn.setAttribute("aria-expanded", "false");
+}
+settingsBtn.addEventListener("click", (e)=>{
+  e.stopPropagation();
+  const isOpen = settingsPopover.classList.toggle("show");
+  settingsBtn.classList.toggle("open", isOpen);
+  settingsBtn.setAttribute("aria-expanded", String(isOpen));
+});
+settingsPopover.addEventListener("click", (e)=>{ e.stopPropagation(); });
+document.addEventListener("click", (e)=>{
+  if(!settingsPopover.contains(e.target) && e.target !== settingsBtn){
+    closeSettingsPopover();
+  }
+});
+document.addEventListener("keydown", (e)=>{
+  if(e.key === "Escape") closeSettingsPopover();
+});
+
+/* ---------------- ヘッダー(topbar)とナビ(navbar)の高さを実測して隙間をなくす ---------------- */
+function syncHeaderLayout(){
+  const topbarEl = document.querySelector(".topbar");
+  const navbarEl = document.querySelector(".navbar");
+  const settingsBtnEl = document.querySelector(".settings-btn");
+  const settingsPopoverEl = document.querySelector(".settings-popover");
+  if(!topbarEl || !navbarEl) return;
+  const topbarH = Math.ceil(topbarEl.getBoundingClientRect().height);
+  navbarEl.style.top = topbarH + "px";
+  const navbarH = Math.ceil(navbarEl.getBoundingClientRect().height);
+  document.body.style.paddingTop = (topbarH + navbarH) + "px";
+
+  if(settingsBtnEl){
+    const btnH = settingsBtnEl.getBoundingClientRect().height;
+    const gearTop = topbarH + Math.max(0, (navbarH - btnH) / 2);
+    settingsBtnEl.style.top = gearTop + "px";
+    if(settingsPopoverEl) settingsPopoverEl.style.top = (topbarH + navbarH + 8) + "px";
+  }
+}
+window.addEventListener("load", syncHeaderLayout);
+window.addEventListener("resize", syncHeaderLayout);
+if(document.fonts && document.fonts.ready){
+  document.fonts.ready.then(syncHeaderLayout).catch(()=>{});
+}
+syncHeaderLayout();
 
 loadState();
 </script>
